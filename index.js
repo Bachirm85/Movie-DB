@@ -11,6 +11,12 @@ app.get('/test', (req, res) => {
     res.send({status:200, message:"ok"})
   })
 
+app.get('/movies/update', (req, res) => {  
+})
+
+app.get('/movies/delete', (req, res) => {  
+})
+
 app.get('/time', (req, res) => {
     res.send({status:200, message:datetime.getHours()+ ":" + datetime.getMinutes()})
   })
@@ -39,8 +45,6 @@ app.get('/search', (req, res) => {
         });
 
 })
-
-
 
 const movies = [
     { title: 'Jaws', year: 1975, rating: 8 },
@@ -99,10 +103,29 @@ app.get('/movies/read/by-title', (req, res) => {
 })
 
 
-app.get('/movies/update', (req, res) => {  
+app.get('/movies/read/id/:id', (req, res) => {
+    if (movies[req.params.id]==null){
+        const response= {
+        
+            status:404, error:true, message:'the movie '+req.params.id+' does not exist'}
+
+        res.status(404);
+        res.send(response);
+    }else{
+    const response= {
+        
+        status:200, data:movies[req.params.id]}
+    res.send(response);
+    }
 })
 
-app.get('/movies/delete', (req, res) => {  
+app.get('/movies/read/id/', (req, res) => {
+    const response= {
+        
+        status:404, error:true, message:'please enter an id to search for you movie'
+    };
+    res.status(404);
+    res.send(response);
 })
 
 
