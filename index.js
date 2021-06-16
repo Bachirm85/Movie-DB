@@ -130,6 +130,28 @@ app.get('/movies/read/id/', (req, res) => {
 
 
 
+app.get('/movies/add', (req, res) => {
+    let title=req.query.title;
+    let year=req.query.year;
+    let rating=req.query.rating;
+    if (title==false || (year==false || isNaN(year)==true || year.length!=4)){
+        res.send({status: 403,error: true,message: "you cannot create a movie without providing a title and a year"});
+
+    } else if (rating==false){
+        year=parseInt(year)
+        rating=4;
+        movies.push({title,year,rating})
+        res.send({ status: 200, message:"Added Movie: "+title });
+        console.log(rating);
+        
+    } else {
+        year=parseInt(year)
+        rating=parseFloat(rating)
+        movies.push({title,year,rating})
+        res.send({ status: 200, message:"Added Movie: "+title});
+    }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
