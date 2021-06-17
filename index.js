@@ -191,6 +191,56 @@ app.get('/movies/delete/id/', (req, res) => {
     res.send(response);
 })
 
+app.get('/movies/update/:id', (req, res) => {
+    const id = req.params.id;
+    const title=req.query.title;
+    const year=req.query.year;
+    const rating=req.query.rating;
+
+    if (movies[id]==null){
+
+        const response= {
+            status:404, 
+            error:true, 
+            message:'the movie '+id+' does not exist'
+        }
+
+        res.status(404);
+        res.json(response);
+    } else if (rating === undefined && title === undefined && year ===undefined) {
+        
+        const response= {
+            status:404, 
+            error:true, 
+            message:'Please enter the minimum request'
+        }
+
+        res.status(404);
+        res.json(response);
+    }
+
+    else {
+
+        if (rating !== undefined) {
+            movies[id].rating=parseFloat(rating);
+        };
+        if (title !== undefined) {
+            movies[id].title=title;
+        };
+        if (year !== undefined) {
+            movies[id].year=parseInt(year);
+        };
+        const response = {    
+            status:200, 
+            data: movies
+        }
+    
+        res.status(200).json(response);
+    } 
+});
+
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
