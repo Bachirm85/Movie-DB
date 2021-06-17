@@ -152,6 +152,45 @@ app.get('/movies/add', (req, res) => {
     }
 });
 
+
+app.get('/movies/delete/id/:id', (req, res) => {
+    const id = req.params.id;
+
+    if (movies[id]==null){
+
+        const response= {
+            status:404, 
+            error:true, 
+            message:'the movie '+id+' does not exist'
+        }
+
+        res.status(404);
+        res.json(response);
+    }else{
+    
+    movies.splice(id, 1);
+    
+    const response = {    
+        status:200, 
+        data: movies
+    }
+
+    res.status(200).json(response);
+    }
+})
+
+app.get('/movies/delete/id/', (req, res) => {
+
+    const response= {
+        status: 404, 
+        error: true, 
+        message: 'please enter an id to search for you movie'
+    };
+
+    res.status(404);
+    res.send(response);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
