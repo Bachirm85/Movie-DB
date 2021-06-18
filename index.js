@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const datetime = new Date();
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('OK!')
@@ -53,7 +54,7 @@ const movies = [
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
 
-app.get('/movies/create', (req, res) => {  
+app.post('/movies/create', (req, res) => {  
     
   })
 
@@ -130,10 +131,10 @@ app.get('/movies/read/id/', (req, res) => {
 
 
 
-app.get('/movies/add', (req, res) => {
-    let title=req.query.title;
-    let year=req.query.year;
-    let rating=req.query.rating;
+app.post('/movies/add', (req, res) => {
+    let title=req.body.title;
+    let year=req.body.year;
+    let rating=req.body.rating;
     if (title==false || (year==false || isNaN(year)==true || year.length!=4)){
         res.send({status: 403,error: true,message: "you cannot create a movie without providing a title and a year"});
 
@@ -153,7 +154,7 @@ app.get('/movies/add', (req, res) => {
 });
 
 
-app.get('/movies/delete/id/:id', (req, res) => {
+app.delete('/movies/delete/id/:id', (req, res) => {
     const id = req.params.id;
 
     if (movies[id]==null){
@@ -179,7 +180,7 @@ app.get('/movies/delete/id/:id', (req, res) => {
     }
 })
 
-app.get('/movies/delete/id/', (req, res) => {
+app.delete('/movies/delete/id/', (req, res) => {
 
     const response= {
         status: 404, 
@@ -191,11 +192,11 @@ app.get('/movies/delete/id/', (req, res) => {
     res.send(response);
 })
 
-app.get('/movies/update/:id', (req, res) => {
+app.put('/movies/update/:id', (req, res) => {
     const id = req.params.id;
-    const title=req.query.title;
-    const year=req.query.year;
-    const rating=req.query.rating;
+    const title=req.body.title;
+    const year=req.body.year;
+    const rating=req.body.rating;
 
     if (movies[id]==null){
 
